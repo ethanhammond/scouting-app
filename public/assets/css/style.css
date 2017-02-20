@@ -1,0 +1,8 @@
+.paladins-background{background-color: #2E3192 !important;} /*Paladins blue*/
+.brand-logo{margin-left: 5%;} /*Site logo text placement*/
+.hide-on-med-and-down{margin-right: 5%;} /*Nav item placement*/
+body {display: flex; min-height: 100vh; flex-direction: column;} /*Sticky footer*/
+main {flex: 1 0 auto;} /*Sticky footer*/
+a:link {color:white;}
+a:visited {color:white; text-shadow: #78909c;}
+a:hover {text-shadow: 2px 2px 5px black;}
