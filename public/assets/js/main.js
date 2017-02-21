@@ -33,9 +33,17 @@ function awaitNavActions() {
     });
 }
 
+function uploadBtnClick() {
+    $(".select-file").click( function() {
+        $('input[type=file]').click();
+        return false;
+    });
+}
+
 $(document).ready(function() {
     showIndex();
     loadSidebar();
     getCurrentYear();
     awaitNavActions();
+    uploadBtnClick();
 });
