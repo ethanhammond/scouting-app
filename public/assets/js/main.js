@@ -18,7 +18,7 @@ function awaitNavActions() {
         $(".index").show();
         $(".data").hide();
         $(".upload").hide();
-    })
+    });
 
     $(".data-link").click( function() {
         $(".index").hide();
