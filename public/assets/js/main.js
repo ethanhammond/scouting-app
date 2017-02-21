@@ -18,18 +18,21 @@ function awaitNavActions() {
         $(".index").show();
         $(".data").hide();
         $(".upload").hide();
+        $(".button-collapse").sideNav('hide');
     });
 
     $(".data-link").click( function() {
         $(".index").hide();
         $(".data").show();
         $(".upload").hide();
+        $(".button-collapse").sideNav('hide');
     });
 
     $(".upload-link").click( function() {
         $(".index").hide();
         $(".data").hide();
         $(".upload").show();
+        $(".button-collapse").sideNav('hide');
     });
 }
 

@@ -6,3 +6,5 @@ main {flex: 1 0 auto;} /*Sticky footer*/
 a:link {color:white;}
 a:visited {color:white; text-shadow: #78909c;}
 a:hover {text-shadow: 2px 2px 5px black;}
+@media (max-width: 992px) { .page-footer-large{visibility: hidden; .page-footer-snall {visibility: hidden;}}
+@media (min-width: 992px) { .page-footer-small{visibility: visible; .page-footer-large {visibility: hidden;}}
