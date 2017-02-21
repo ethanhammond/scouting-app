@@ -1,62 +1,77 @@
-var bodyParser = require('body-parser');
-var express = require('express');
-var favicon = require('serve-favicon');
-var methodOverride = require('method-override');
-var moment = require('moment');
-var nib = require('nib');
-var path = require('path');
-var stylus = require('stylus');
+/**
+ * Created by Howard on 4/8/2016.
+ */
 
-var api = require('./routes/api');
-var index = require('./routes/index');
+"use strict";
 
-var app = express();
+class app {
+    constructor() {
+        app.loadServer();
+    }
 
-function compile(str, path) {
-  return stylus(str).set('filename', path).use(nib());
+    static loadServer() {
+        const HTTP = require('http'),
+            PORT = process.env.PORT || 8080,
+            SERVER = HTTP.createServer(function (req, res) {
+                let httpHandler = function (err, str, contentType) {
+                    if (err) {
+                        res.writeHead(500, {'Content-Type': 'text/plain'});
+                        res.end('An error has occurred: ' + err.message);
+                    } else if (contentType.indexOf('image') >= 0) {
+                        res.writeHead(200, {'Content-Type': contentType});
+                        res.end(str, 'binary');
+                    } else {
+                        res.writeHead(200, {'Content-Type': contentType});
+                        res.end(str);
+                    }
+                };
+
+                if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
+                    if (req.method == 'POST') {
+                        app.getFormData(req, res);
+                    } else {
+                        //console.log("[405] " + req.method + " to " + req.url);
+                        res.writeHead(405, "Method not supported", {'Content-Type': 'text/html'});
+                        res.end('<html><head><title>405 - Method not supported</title></head><body><h1>Method not supported.</h1></body></html>');
+                    }
+                } else if (req.url.indexOf('/data/') >=0) {
+                    app.render(req.url.slice(1), 'text/csv', httpHandler, 'utf-8');
+                } else if (req.url.indexOf('/js/') >= 0) {
+                    app.render(req.url.slice(1), 'application/ecmascript', httpHandler, 'utf-8');
+                } else if (req.url.indexOf('/css/') >= 0) {
+                    app.render(req.url.slice(1), 'text/css', httpHandler, 'utf-8');
+                    console.log('rendering ' + req.url.slice(1));
+                } else if (req.url.indexOf('/images/') >= 0) {
+                    app.render(req.url.slice(1), 'image/jpeg', httpHandler, 'binary');
+                } else if (req.url == '/') {
+                    app.render('public/views/index.html', 'text/html', httpHandler, 'utf-8');
+                } else {
+                    app.render('public/views/index.html', 'text/html', httpHandler, 'utf-8');
+                }
+            }).listen(PORT, function () {
+                console.log('Such Memes at localhost:' + PORT + ' Wow.');
+            });
+    }
+
+    static render(path, contentType, callback, encoding) {
+        const FS = require('fs');
+        FS.readFile(__dirname + '/' + path, encoding ? encoding : 'utf-8', function (err, str) { // ternary
+            callback(err, str, contentType);
+        });
+    }
+
+    static getFormData(req, res) {
+        const FileWriter = require('./node/FileWriter');
+        let fileWriter = new FileWriter('./data/users.csv');
+        let data = '';
+        req.on('data', function(chunk) {
+            data += chunk;
+            //console.log(data);
+        }).on('end', function() {
+            //console.log(data);
+            fileWriter.writeUserData(data);
+        });
+    }
 }
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(stylus.middleware({src: __dirname + '/public', compile: compile}));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', index);
-app.use('/api', api);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-   var err = new Error('Not Found');
-   err.status = 404;
-   next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
 
 module.exports = app;
