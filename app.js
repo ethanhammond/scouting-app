@@ -93,18 +93,27 @@ class app {
   }
 
   static addMatchData(req, res) {
-    let querystring = require('querystring');
     let data = '';
     req.on('data', (chunk) => {
       data += chunk;
     }).on('error', (err) => {
       console.log(err);
     }).on('end', () => {
-      console.log(querystring.parse(data));
       data = data.split("octet-stream").pop();
       data = data.split("\n---").shift();
       console.log(data);
-      data = JSON.parse(data);
+      let jsonData = JSON.parse(data);
+      let Datastore = require('nedb'), db = new Datastore({ filename: 'data/datastore.json' });
+      db.loadDatabase(function (err) {
+        if (err) {
+          console.log(err);
+        }
+      });
+      db.insert(jsonData, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
     });
   }
 
