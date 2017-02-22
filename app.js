@@ -7,6 +7,13 @@
 class app {
   constructor() {
     app.loadServer();
+    let Datastore = require('nedb');
+    app.db = new Datastore({ filename: './data/datastore.json' });
+    app.db.loadDatabase(function (err) {
+      if (err) {
+        console.log(err);
+      }
+    });
   }
 
   static loadServer() {
@@ -103,13 +110,8 @@ class app {
       data = data.split("\n---").shift();
       console.log(data);
       let jsonData = JSON.parse(data);
-      let Datastore = require('nedb'), db = new Datastore({ filename: 'data/datastore.json' });
-      db.loadDatabase(function (err) {
-        if (err) {
-          console.log(err);
-        }
-      });
-      db.insert(jsonData, (err) => {
+      jsonData._id = jsonData["Team Number"] + jsonData["Round Number"];
+      app.db.insert(jsonData, (err) => {
         if (err) {
           console.log(err);
         }
