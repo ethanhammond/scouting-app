@@ -1,13 +1,63 @@
 .col.s12 > .btn {
   width: 100%;
 }
-.paladins-background{background-color: #2E3192 !important;} /*Paladins blue*/
-.brand-logo{margin-left: 5%;} /*Site logo text placement*/
-.hide-on-med-and-down{margin-right: 5%;} /*Nav item placement*/
-body {display: flex; min-height: 100vh; flex-direction: column;} /*Sticky footer*/
-main {flex: 1 0 auto;} /*Sticky footer*/
-a:link {color:white;}
-a:visited {color:white; text-shadow: #78909c;}
-a:hover {text-shadow: 2px 2px 5px black;}
-@media (max-width: 992px) { .page-footer-large{visibility: hidden; .page-footer-snall {visibility: hidden;}}
-@media (min-width: 992px) { .page-footer-small{visibility: visible; .page-footer-large {visibility: hidden;}}
+
+.paladins-background { /*Paladins blue*/
+  background-color: #2E3192 !important;
+}
+
+.brand-logo { /*Site logo text placement*/
+  margin-left: 5%;
+}
+
+.hide-on-med-and-down { /*Nav item placement*/
+  margin-right: 5%;
+}
+
+body { /*Sticky footer*/
+  display: flex; min-height: 100vh; flex-direction: column;
+}
+
+main { /*Sticky footer*/
+  flex: 1 0 auto;
+}
+
+a:link {
+  color:white;
+}
+
+a:visited {
+  color:white; text-shadow: #78909c;
+}
+
+a:hover {
+  text-shadow: 2px 2px 5px black;
+}
+
+.footer-copyright {
+  background-color: #2a2c84; padding: 1% 0 1% 0;
+}
+
+.footer-copyright > div {
+  color:white;
+}
+
+@media (min-width: 993px) {
+  .page-footer-large {
+    display: block;
+  }
+
+  .page-footer-small {
+    display: none;
+  }
+}
+
+@media (max-width: 992px) {
+  .page-footer-large {
+    display: none;
+  }
+
+  .page-footer-small {
+    display: block;
+  }
+}
