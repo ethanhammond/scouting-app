@@ -3,13 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "nodemon bin/www",
     "ide":  "./ide.sh"
   },
   "dependencies": {
     "http-router": "latest",
     "nodemon": "latest",
     "serve-favicon": "~2.3.0",
-    "nedb": "latest"
+    "nedb": "latest",
+    "formidable": "latest",
+    "path": "latest"
   }
 }

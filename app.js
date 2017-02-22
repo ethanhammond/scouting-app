@@ -28,7 +28,7 @@ class app {
 
       if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
         if (req.method == 'POST') {
-          if (req.url.indexOf('/match-data/') >= 0) {
+          if (req.url.indexOf('/match-data') >= 0) {
             console.log(`calling match data function`);
             app.addMatchData(req, res);
           }
@@ -94,10 +94,30 @@ class app {
   }
 
   static addMatchData(req, res) {
-    req.on('data', function(chunk) {
-      console.log('recieved data ' + chunk);
+    const Formidable = require('formidable');
+    const path = require('path');
+    var form = new Formidable.IncomingForm();
+    form.multiples = true;
+    form.uploadDir = path.join(__dirname, '/data');
 
+    // every time a file has been uploaded successfully,
+    // rename it to it's orignal name
+    form.on('file', function(field, file) {
+      fs.rename(file.path, path.join(form.uploadDir, file.name));
     });
+
+    // log any errors that occur
+    form.on('error', function(err) {
+      console.log('An error has occured: \n' + err);
+    });
+
+    // once all the files have been uploaded, send a response to the client
+    form.on('end', function() {
+      res.end('success');
+    });
+
+    // parse the incoming request containing the form data
+    form.parse(req);
   }
 
   static getExtension(url) {
