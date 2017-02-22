@@ -12,6 +12,7 @@
     "serve-favicon": "~2.3.0",
     "nedb": "latest",
     "formidable": "latest",
-    "path": "latest"
+    "path": "latest",
+    "querystring": "latest"
   }
 }
