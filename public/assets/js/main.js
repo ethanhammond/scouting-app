@@ -41,18 +41,18 @@ function uploadBtnClick() {
       $('input[type=file]').click();
       return false;
     });
-    $("#upload").click(() => {
-      let xhr = new XMLHttpRequest();
-      let formData = new FormData();
+
+    $("#upload").click( function() {
+      var xhr = new XMLHttpRequest();
+      var formData = new FormData();
       var file = document.getElementById("file-upload");
       formData.append('upload', file.files[0]);
       xhr.open('POST', '/match-data/', true);
       xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
       xhr.send(formData);
       alert("uploading");
-    })
+    });
 }
-
 
 $(document).ready(function() {
     showIndex();
