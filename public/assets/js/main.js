@@ -38,9 +38,20 @@ function awaitNavActions() {
 
 function uploadBtnClick() {
     $(".select-file").click( function() {
-        $('input[type=file]').click();
-        return false;
+      $('input[type=file]').click();
+      return false;
     });
+    $("#upload").click(() => {
+      let xhr = new XMLHttpRequest();
+      let formData = new FormData();
+      var file = document.getElementById("file-upload");
+      formData.append('upload', file.files[0]);
+      xhr.open('POST', '/match-data/', true);
+      xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+      xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+      xhr.send(formData);
+      alert("uploading");
+    })
 }
 
 $(document).ready(function() {

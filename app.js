@@ -29,6 +29,7 @@ class app {
       if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
         if (req.method == 'POST') {
           if (req.url.indexOf('/match-data/') >= 0) {
+            console.log(`calling match data function`);
             app.addMatchData(req, res);
           }
         } else {
@@ -44,7 +45,12 @@ class app {
         app.render(req.url.slice(1), 'text/css', httpHandler, 'utf-8');
         console.log('rendering ' + req.url.slice(1));
       } else if (req.url.indexOf('/images/') >= 0) {
-        app.render(req.url.slice(1), 'image/jpeg', httpHandler, 'binary');
+        let imageTypes = {
+          'jpeg' : 'image/jpeg',
+          'jpg' : 'image/jpeg',
+          'png' : 'image/png'
+        }
+        app.render(req.url.slice(1), imageTypes[app.getExtension(req.url)], httpHandler, 'binary');
       } else if (req.url == '/') {
         app.render('public/views/index.html', 'text/html', httpHandler, 'utf-8');
       } else if (req.url.indexOf('/fonts/') >= 0) {
@@ -58,6 +64,7 @@ class app {
             'sfnt'  : 'application/font-sfnt'
         }
         app.render(req.url.slice(1), fontTypes[app.getExtension(req.url)], httpHandler, 'binary');
+        // console.log(`sending font ${req.url} with extension ${app.getExtension(req.url)} as ${fontTypes[app.getExtension(req.url)]}`)
       } else {
         app.render('public/views/index.html', 'text/html', httpHandler, 'utf-8');
       }
@@ -87,7 +94,10 @@ class app {
   }
 
   static addMatchData(req, res) {
+    req.on('data', function(chunk) {
+      console.log('recieved data ' + chunk);
 
+    });
   }
 
   static getExtension(url) {

@@ -1,3 +1,6 @@
+.col.s12 > .btn {
+  width: 100%;
+}
 .paladins-background{background-color: #2E3192 !important;} /*Paladins blue*/
 .brand-logo{margin-left: 5%;} /*Site logo text placement*/
 .hide-on-med-and-down{margin-right: 5%;} /*Nav item placement*/
