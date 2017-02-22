@@ -10,7 +10,7 @@ function loadSidebar() {
 
 function getCurrentYear() {
     var currentYear = (new Date).getFullYear();
-    $("#copyright-year").html(currentYear);
+    $(".copyright-year").html(currentYear);
 }
 
 function awaitNavActions() {
