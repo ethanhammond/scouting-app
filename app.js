@@ -113,7 +113,16 @@ class app {
       jsonData._id = jsonData["Team Number"] + jsonData["Round Number"];
       app.db.insert(jsonData, (err) => {
         if (err) {
-          console.log(err);
+          if (err.errorType = 'uniqueViolated') {
+            console.log(`replacing document ${jsonData._id}`);
+            app.db.update({_id: jsonData._id}, jsonData, {}, (err) => {
+              if (err) {
+                console.log(err);
+              }
+            });
+          } else if (err) {
+            console.log(err);
+          }
         }
       });
     });
