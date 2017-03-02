@@ -1,0 +1,141 @@
+{
+  "auton": {
+    "Starts Moving": {
+      "value": "time",
+      "calculations": ["median", "mean",  "numPerMatch"]
+    },
+    "Crosses Baseline": {
+      "value": "time",
+      "calculations": ["median", "mean",  "numPerMatch"]
+    },
+    "Places Gear": {
+      "value": "time",
+      "calculations": ["median", "mean",  "numPerMatch"]
+    },
+    "Gear Duration": {
+      "value": "duration",
+      "calculations": ["mean"],
+      "start": "Places Gear",
+      "end": "Robot Away"
+    },
+    "Low Dump": {
+      "value": "time",
+      "calculations": ["mean", "median",  "numPerMatch"]
+    },
+    "High Goal": {
+      "value": "amount",
+      "calculations": ["mean", "rate", "duration"],
+      "start": "Start High Goal",
+      "end": "End High Goal"
+    },
+    "Hopper": {
+      "value": "time",
+      "calculations": ["mean", "median",  "numPerMatch"],
+      "locations": ["1", "2", "3", "4", "5"]
+    },
+    "A04": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    }
+  },
+  "teleop": {
+    "Gear Pickup": {
+      "value": "time",
+      "calculations": ["numPerMatch"],
+      "locations": ["Return", "Opp Launch", "Neutral", "Launch"]
+    },
+    "Drop Gear": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    },
+    "Lift": {
+      "value": "time",
+      "calculations": ["numPerMatch"],
+      "locations": ["1", "2", "3"]
+    },
+    "Lift Duration": {
+      "value": "duration",
+      "calculations": ["mean"],
+      "start": ["Lift 1", "Lift 2", "Lift 3"],
+      "end": "Robot Away"
+    },
+    "Gear Cycle Time": {
+      "value": "cycle",
+      "start": "Gear Pickup",
+      "end": ["Drop Gear", "Lift"]
+    },
+    "Hopper": {
+      "value": "time",
+      "calculations": ["numPerMatch"],
+      "locations": ["1", "2", "3", "4", "5"]
+    },
+    "Collecting": {
+      "value": "amount",
+      "calculations": ["mean", "rate", "duration"]
+    },
+    "High Goal": {
+      "value": "amount",
+      "calculations": ["mean", "rate", "duration"]
+    },
+    "Low Dump": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    },
+    "G12": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    },
+    "G13": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    },
+    "G20": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    },
+    "G27": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    },
+    "Rope Released": {
+      "value": "time",
+      "calculations": ["mean"]
+    },
+    "Climb Start": {
+      "value": "time",
+      "calculations": ["mean"]
+    },
+    "Climb Duration": {
+      "value": "duration",
+      "calculations": ["mean"],
+      "start": "Climb Start",
+      "end": ["Success", "Fail"]
+    },
+    "Success": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    },
+    "Start Pin": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    },
+    "Pin Duration": {
+      "value": "duration",
+      "calculations": ["mean"],
+      "start": "Start Pin",
+      "end": "End Pin"
+    },
+    "Retrieval Tap": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    },
+    "Rope Tap": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    },
+    "Shooting Disruption": {
+      "value": "time",
+      "calculations": ["numPerMatch"]
+    }
+  }
+}

@@ -9,7 +9,7 @@
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="/public/assets/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <link rel="stylesheet" href="/public/assets/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
@@ -21,59 +21,114 @@
           <a href="#" class="brand-logo index-link">FRC Scouting App</a>
           <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="fa fa-bars"></i></a>
           <ul class="right hide-on-med-and-down">
-            <li><a href="#" class="index-link">Home</a></li>
             <li><a href="#" class="data-link">Data</a></li>
             <li><a href="#" class="upload-link">Upload</a></li>
           </ul>
           <ul class="side-nav paladins-background" id="mobile-demo">
-            <li><a href="#" class="index-link">Home</a></li>
             <li><a href="#" class="data-link">Data</a></li>
             <li><a href="#" class="upload-link">Upload</a></li>
           </ul>
         </div>
       </nav>
     </header>
+
     <main>
-
-    <div class="index">
-      <div class="container">
-        <div class="row">
-          <h2>INDEX</h2>
-        </div>
-      </div>
-    </div>
-
-    <div class="data">
-      <div class="container">
-        <div class="row">
-          <h2>DATA</h2>
-        </div>
-      </div>
-    </div>
-
-    <div class="upload">
-      <div class="container">
-        <h2>UPLOAD</h2>
-        <form action="#">
+      <div class="data">
+        <div class="container">
           <div class="row">
-            <div class="file-field input-field select-file">
-              <div class="btn">
-                <span>Select File</span>
-                <input id="file-upload" type="file">
-              </div>
-              <div class="file-path-wrapper">
-                <input class="file-path validate" type="text">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col m3 s12">
-                <div id="upload" class="btn"><span>UPLOAD</span></div>
-              </div>
+            <h2>Data</h2>
+            <div class="col s12">
+              <div id="data" class="collection"></div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
+
+      <div class="upload">
+        <div class="container">
+          <h2>Upload</h2>
+          <form action="#">
+            <div class="row">
+              <div class="file-field input-field select-file">
+                <div class="btn">
+                  <span>Select File</span>
+                  <input id="file-upload" type="file">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s12">
+                  <div id="upload" class="btn waves-light"><span>UPLOAD</span></div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="team-detail">
+        <div class="container">
+          <div class="row">
+            <div class="col s12">
+              <h1 class="team-info">Team Number - Team Name</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <a id="blue-alliance-link" href="">Blue Alliance Page</a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <ul class="collapsible popout" data-collapsible="accordion">
+                <li>
+                  <div class="collapsible-header">Summary</div>
+                  <div class="collapsible-body">
+                    <span id="team-summary" class="row"></span>
+                  </div>
+                </li>
+                <li>
+                  <div class="collapsible-header">Events</div>
+                  <div class="collapsible-body">
+                    <div id="event-list" class="collection"></div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </div>
+
+      <div class="event-detail">
+        <div class="container">
+          <div class="row">
+            <div class="col s12">
+              <h1 class="team-info"></h1>
+              <h2 class="event-name"></h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <ul class="collapsible popout" data-collapsible="accordion">
+                <li>
+                  <div class="collapsible-header">Summary</div>
+                  <div class="collapsible-body">
+                    <span id="team-summary" class="row"></span>
+                  </div>
+                </li>
+                <li>
+                  <div class="collapsible-header">Matches</div>
+                  <div class="collapsible-body">
+                    <div id="event-list" class="collection"></div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </main>
 
     <footer class="page-footer-large paladins-background">
@@ -92,7 +147,6 @@
           <div class="col l4 offset-l2 s12">
             <h5 class="white-text">Sitemap</h5>
             <ul>
-              <li><a class="grey-text text-lighten-3 index-link" href="#">Home</a></li>
               <li><a class="grey-text text-lighten-3 data-link" href="#">Data</a></li>
               <li><a class="grey-text text-lighten-3 upload-link" href="#">Upload</a></li>
             </ul>
@@ -110,10 +164,10 @@
       </div>
     </footer>
 
-    <footer class="page-footer-small">
+    <footer class="page-footer-small paladins-background">
       <div class="footer-copyright">
         <div class="container">
-          © <span class="copyright-year"></span> <a href="//petoskeypaladins.org/">Petoskey Paladins</a>
+          © <span class="copyright-year"></span> <a class="white-text" href="//petoskeypaladins.org/">Petoskey Paladins</a>
           <a class="grey-text text-lighten-4 right social-media" href="//twitter.com/paladins3618"><i class="fa fa-twitter"></i></a>
           <a class="grey-text text-lighten-4 right social-media" href="//www.facebook.com/petoskey.paladins.3/"><i class="fa fa-facebook"></i></a>
           <a class="grey-text text-lighten-4 right social-media" href="//www.instagram.com/paladins3618/"><i class="fa fa-instagram"></i></a>

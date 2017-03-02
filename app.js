@@ -32,11 +32,23 @@ class app {
           res.end(str);
         }
       };
+      console.log(`recieved ${req.method} at ${req.url}`);
+      app.httpHandler = httpHandler;
 
       if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
         if (req.method == 'POST') {
           if (req.url.indexOf('/match-data') >= 0) {
             app.addMatchData(req, res);
+          }
+        } else if (req.method == 'GET') {
+          if (req.url.indexOf('/team-list') >= 0) {
+            app.getTeamList();
+          } else if (req.url.indexOf('/team-summary/') >= 0) {
+            let teamNumber = req.url.split('/').pop();
+            app.getTeamSummary(teamNumber);
+          } else if (req.url.indexOf('/event-list/') >= 0) {
+            let teamNumber = req.url.split('/').pop();
+            app.getEventList(teamNumber);
           }
         } else {
           //console.log("[405] " + req.method + " to " + req.url);
@@ -49,7 +61,6 @@ class app {
         app.render(req.url.slice(1), 'application/ecmascript', httpHandler, 'utf-8');
       } else if (req.url.indexOf('/css/') >= 0) {
         app.render(req.url.slice(1), 'text/css', httpHandler, 'utf-8');
-        console.log('rendering ' + req.url.slice(1));
       } else if (req.url.indexOf('/images/') >= 0) {
         let imageTypes = {
           'jpeg' : 'image/jpeg',
@@ -61,13 +72,13 @@ class app {
         app.render('public/views/index.html', 'text/html', httpHandler, 'utf-8');
       } else if (req.url.indexOf('/fonts/') >= 0) {
         let fontTypes = {
-            'svg'   : 'image/svg+xml',
-            'ttf'   : 'application/x-font-ttf',
-            'otf'   : 'application/x-font-opentype',
-            'woff'  : 'application/font-woff',
-            'woff2' : 'application/font-woff2',
-            'eot'   : 'application/vnd.ms-fontobject',
-            'sfnt'  : 'application/font-sfnt'
+          'svg'   : 'image/svg+xml',
+          'ttf'   : 'application/x-font-ttf',
+          'otf'   : 'application/x-font-opentype',
+          'woff'  : 'application/font-woff',
+          'woff2' : 'application/font-woff2',
+          'eot'   : 'application/vnd.ms-fontobject',
+          'sfnt'  : 'application/font-sfnt'
         }
         app.render(req.url.slice(1), fontTypes[app.getExtension(req.url)], httpHandler, 'binary');
         // console.log(`sending font ${req.url} with extension ${app.getExtension(req.url)} as ${fontTypes[app.getExtension(req.url)]}`)
@@ -99,6 +110,104 @@ class app {
     });
   }
 
+  static getTeamList() {
+    let http = require('http');
+    let teamListJson = {};
+    let html = '';
+    app.db.find({}, (err, docs) => {
+      let teamNumbers = [];
+      for (let i = 0; i < docs.length; i++) {
+        let teamNumber = docs[i].team;
+        console.log(teamNumber);
+        const NOT_FOUND = -1;
+        if (teamNumbers.indexOf(teamNumber) == NOT_FOUND) {
+          teamNumbers.push(teamNumber);
+          html += '<a href="#!" class="collection-item team-listing">' +
+            teamNumber +
+          '</a>';
+        }
+      }
+      return app.httpHandler('', html, 'text/html');
+    });
+  }
+
+  static getEventList(teamNumber) {
+    let html = '';
+    app.db.find({team: teamNumber}, (err, docs) => {
+      let events = [];
+      for (let i = 0; i < docs.length; i++) {
+        let eventCode = docs[i].event;
+        console.log(eventCode);
+        const NOT_FOUND = -1;
+        if (events.indexOf(eventCode) == NOT_FOUND) {
+          events.push(eventCode);
+          html += '<a href="#!" class="collection-item event-listing">' +
+            eventCode +
+            '</a>';
+        }
+      }
+      return app.httpHandler('', html, 'text/html');
+    });
+  }
+
+  static getTeamSummary(teamNumber) {
+    let SummaryCalculations = require('./node/SummaryCalculations');
+    let teamSummary = {};
+    console.log("team number: " + teamNumber);
+    app.db.find({team: teamNumber}, (err, docs) => {
+		console.log("docs: " + JSON.stringify(docs, null, 2));
+      let summaryData = {};
+      if (err) {
+        console.log('err' + err);
+        htttpHandler(err, '', 'text/plain');
+      } else {
+        let fs = require('fs');
+        fs.readFile('config/team-summary.json', 'utf-8', (err, data) => {
+          let summaryDataPoints = JSON.parse(data);
+          let html = '';
+          for (let gamemode in summaryDataPoints) {
+            summaryData[gamemode] = {};
+            html += `<div class="col s12 m6">
+              <h1>${gamemode}</h1>
+                <ul class="collapsible" data-collapsible="expandable">`;
+            if (summaryDataPoints.hasOwnProperty(gamemode)) {
+              console.log("game mode: " + gamemode);
+              let dataPoints = summaryDataPoints[gamemode];
+              for (let dataPoint in dataPoints) {
+                if (dataPoints.hasOwnProperty(dataPoint)) {
+                  let calculationSpec = dataPoints[dataPoint];
+                  calculationSpec.event = dataPoint;
+                  // console.log("calculation spec: " + JSON.stringify(calculationSpec, null, 2));
+                  let results = {};
+                  if (calculationSpec.value != "cycle") {
+                      results = SummaryCalculations.getResults(docs, calculationSpec, gamemode);
+                      console.log("results: " + JSON.stringify(results, null, 2));
+                      summaryData[gamemode][dataPoint] = results;
+                      html += `<li>
+                        <div class="collapsible-header">${dataPoint}</div>
+                        <div class="collapsible-body">
+                          <ul class="collection">`;
+
+                      for (let calculation in results) {
+                        if (results.hasOwnProperty(calculation)) {
+                          html += `<li class="collection-item">${calculation}: ${results[calculation]}</li>`;
+                        }
+                      }
+                      html += `</ul></li>`;
+                  }
+                }
+              }
+            }
+            html += `</ul></div>`;
+          }
+          // console.log('summary data' + JSON.stringify(summaryData, null, 2));
+          console.log("html\n" + html);
+          return app.httpHandler('', html, 'text/html');
+        });
+      }
+    });
+  }
+
   static addMatchData(req, res) {
     let data = '';
     req.on('data', (chunk) => {
@@ -106,14 +215,17 @@ class app {
     }).on('error', (err) => {
       console.log(err);
     }).on('end', () => {
+      data = data.split('Content-Type: application/json').pop();
       data = data.split("octet-stream").pop();
       data = data.split("\n---").shift();
+      console.log('wat');
       console.log(data);
+      console.log('wut');
       let jsonData = JSON.parse(data);
-      jsonData._id = jsonData["Team Number"] + jsonData["Round Number"];
+      jsonData._id = jsonData.event + jsonData.team + jsonData.round;
       app.db.insert(jsonData, (err) => {
         if (err) {
-          if (err.errorType = 'uniqueViolated') {
+          if (err.errorType == 'uniqueViolated') {
             console.log(`replacing document ${jsonData._id}`);
             app.db.update({_id: jsonData._id}, jsonData, {}, (err) => {
               if (err) {
@@ -126,6 +238,7 @@ class app {
         }
       });
     });
+    res.end();
   }
 
   static getExtension(url) {

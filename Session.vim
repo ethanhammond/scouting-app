@@ -19,6 +19,9 @@ inoremap <Plug>(emmet-expand-word) =emmet#util#closePopup()=emmet#expandAb
 inoremap <Plug>(emmet-expand-abbr) =emmet#util#closePopup()=emmet#expandAbbr(0,"")
 inoremap <silent> <SNR>29_AutoPairsReturn =AutoPairsReturn()
 inoremap <silent> <C-Tab> =UltiSnips#ListSnippets()
+nmap v <Plug>SlimeConfig
+nmap  <Plug>SlimeParagraphSend
+xmap  <Plug>SlimeRegionSend
 nmap  h
 xmap  h
 snoremap <silent>  c
@@ -153,6 +156,10 @@ nmap ySs <Plug>YSsurround
 nmap yss <Plug>Yssurround
 nmap yS <Plug>YSurround
 nmap ys <Plug>Ysurround
+nnoremap <silent> <Plug>(RepeatRedo) :call repeat#wrap("\<C-R>",v:count)
+nnoremap <silent> <Plug>(RepeatUndoLine) :call repeat#wrap('U',v:count)
+nnoremap <silent> <Plug>(RepeatUndo) :call repeat#wrap('u',v:count)
+nnoremap <silent> <Plug>(RepeatDot) :exe repeat#run(v:count)
 nnoremap <silent> <Plug>(easymotion-activate) :call EasyMotion#activate(0)
 snoremap <silent> <Plug>(easymotion-activate) :call EasyMotion#activate(0)
 nnoremap <silent> <Plug>(easymotion-repeat) :call EasyMotion#Repeat(0)
@@ -329,18 +336,17 @@ nnoremap <silent> <Plug>(easymotion-Tl2) :call EasyMotion#TL(2,0,1)
 snoremap <silent> <Plug>(easymotion-Tl2) :call EasyMotion#TL(2,0,1)
 nnoremap <silent> <Plug>(easymotion-fln) :call EasyMotion#SL(-1,0,0)
 snoremap <silent> <Plug>(easymotion-fln) :call EasyMotion#SL(-1,0,0)
-nnoremap <silent> <Plug>(RepeatDot) :exe repeat#run(v:count)
-nnoremap <silent> <Plug>(RepeatUndo) :call repeat#wrap('u',v:count)
-nnoremap <silent> <Plug>(RepeatUndoLine) :call repeat#wrap('U',v:count)
-nnoremap <silent> <Plug>(RepeatRedo) :call repeat#wrap("\<C-R>",v:count)
+nmap <SNR>75_WE <Plug>AlignMapsWrapperEnd
+map <SNR>75_WS <Plug>AlignMapsWrapperStart
+nnoremap <SNR>67_: :=v:count ? v:count : ''
 vnoremap <silent> <Plug>NetrwBrowseXVis :call netrw#BrowseXVis()
 nnoremap <silent> <Plug>NetrwBrowseX :call netrw#BrowseX(expand((exists("g:netrw_gx")? g:netrw_gx : '<cfile>')),netrw#CheckIfRemote())
 nmap <silent> <Plug>RestoreWinPosn :call RestoreWinPosn()
 nmap <silent> <Plug>SaveWinPosn :call SaveWinPosn()
-nmap <SNR>75_WE <Plug>AlignMapsWrapperEnd
-map <SNR>75_WS <Plug>AlignMapsWrapperStart
+nmap <SNR>76_WE <Plug>AlignMapsWrapperEnd
+map <SNR>76_WS <Plug>AlignMapsWrapperStart
 nnoremap <silent> <Plug>SurroundRepeat .
-nnoremap <SNR>67_: :=v:count ? v:count : ''
+nnoremap <SNR>68_: :=v:count ? v:count : ''
 nmap <silent> <Plug>CommentaryUndo <Plug>Commentary<Plug>Commentary
 vnoremap <Plug>(emmet-code-pretty) :call emmet#codePretty()
 vnoremap <Plug>(emmet-merge-lines) :call emmet#mergeLines()
@@ -611,7 +617,7 @@ set helplang=en
 set ignorecase
 set incsearch
 set omnifunc=syntaxcomplete#Complete
-set operatorfunc=<SNR>66_go
+set operatorfunc=<SNR>67_go
 set pastetoggle=<F5>
 set printoptions=paper:letter
 set ruler
@@ -629,6 +635,7 @@ set tags=./tags;,~/.vimtags
 set textwidth=89
 set undodir=~/.vim/undo
 set undofile
+set updatetime=200
 set winaltkeys=no
 set winminheight=0
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
@@ -639,37 +646,50 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +45 app.js
-badd +1 public/assets/js/main.js
-badd +71 public/views/index.html
-badd +13 package.json
+badd +1 file-watcher.sh
+badd +1 app.js
+badd +75 public/assets/css/style.css
+badd +103 public/views/index.html
+badd +2 public/assets/js/main.js
+badd +15 config/team-summary.json
+badd +1 ~/git/PetoskeyPaladinsDataCollectionApp/app/src/main/assets/auton-layout.json
+badd +1 public/node/SummaryCalculations.js
+badd +94 node/SummaryCalculations.js
+badd +1 data/datastore.json
+badd +2 ~/git/bag-day-timer/public/javascripts/main.js
+badd +1 .
 argglobal
 silent! argdel *
-edit public/views/index.html
+edit app.js
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
-1wincmd h
+wincmd _ | wincmd |
+vsplit
+2wincmd h
 wincmd w
 wincmd _ | wincmd |
 split
 1wincmd k
-wincmd _ | wincmd |
-vsplit
-1wincmd h
 wincmd w
+wincmd w
+wincmd _ | wincmd |
+split
+1wincmd k
 wincmd w
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 31 + 136) / 273)
-exe '2resize ' . ((&lines * 27 + 33) / 66)
-exe 'vert 2resize ' . ((&columns * 102 + 136) / 273)
-exe '3resize ' . ((&lines * 27 + 33) / 66)
-exe 'vert 3resize ' . ((&columns * 138 + 136) / 273)
-exe '4resize ' . ((&lines * 36 + 33) / 66)
-exe 'vert 4resize ' . ((&columns * 241 + 136) / 273)
+exe 'vert 1resize ' . ((&columns * 31 + 127) / 254)
+exe '2resize ' . ((&lines * 30 + 31) / 62)
+exe 'vert 2resize ' . ((&columns * 110 + 127) / 254)
+exe '3resize ' . ((&lines * 29 + 31) / 62)
+exe 'vert 3resize ' . ((&columns * 110 + 127) / 254)
+exe '4resize ' . ((&lines * 30 + 31) / 62)
+exe 'vert 4resize ' . ((&columns * 111 + 127) / 254)
+exe '5resize ' . ((&lines * 29 + 31) / 62)
+exe 'vert 5resize ' . ((&columns * 111 + 127) / 254)
 argglobal
 enew
 file NERD_tree_1
@@ -854,6 +874,7 @@ inoremap <buffer> <silent> î :call AutoPairsJump()a
 inoremap <buffer> <silent> <expr> ð AutoPairsToggle()
 inoremap <buffer> <silent> â =AutoPairsBackInsert()
 inoremap <buffer> <silent> å =AutoPairsFastWrap()
+nnoremap <buffer> <silent> <Plug>(jsdoc) :call jsdoc#insert()
 inoremap <buffer> <silent>  =AutoPairsDelete()
 inoremap <buffer> <silent>   =AutoPairsSpace()
 inoremap <buffer> <silent> " =AutoPairsInsert('"')
@@ -880,14 +901,14 @@ setlocal breakindentopt=
 setlocal bufhidden=
 setlocal buflisted
 setlocal buftype=
-setlocal nocindent
-setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cindent
+setlocal cinkeys=0{,0},0),:,!^F,o,O,e,0]
 setlocal cinoptions=j1,J1
 setlocal cinwords=if,else,while,do,for,switch
 set colorcolumn=91
 setlocal colorcolumn=91
-setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
-setlocal commentstring=<!--%s-->
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=//%s
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
@@ -903,8 +924,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'html'
-setlocal filetype=html
+if &filetype != 'javascript'
+setlocal filetype=javascript
 endif
 setlocal fixendofline
 setlocal foldcolumn=0
@@ -918,17 +939,17 @@ setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=tcqn1j
+setlocal formatoptions=n1jcroql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
 setlocal iminsert=2
 setlocal imsearch=2
 setlocal include=
 setlocal includeexpr=
-setlocal indentexpr=HtmlIndent()
-setlocal indentkeys=o,O,<Return>,<>>,{,},!^F
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
 setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255
+setlocal iskeyword=@,48-57,_,192-255,$
 setlocal keywordprg=
 set linebreak
 setlocal linebreak
@@ -936,14 +957,14 @@ setlocal nolisp
 setlocal lispwords=
 setlocal nolist
 setlocal makeprg=
-setlocal matchpairs=(:),{:},[:],<:>
+setlocal matchpairs=(:),{:},[:]
 setlocal modeline
 setlocal modifiable
 setlocal nrformats=bin,octal,hex
 set number
 setlocal number
 setlocal numberwidth=4
-setlocal omnifunc=htmlcomplete#CompleteTags
+setlocal omnifunc=javascriptcomplete#CompleteJS
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
@@ -967,8 +988,8 @@ setlocal statusline=%!airline#statusline(2)
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'html'
-setlocal syntax=html
+if &syntax != 'javascript'
+setlocal syntax=javascript
 endif
 setlocal tabstop=2
 setlocal tagcase=
@@ -982,12 +1003,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 72 - ((13 * winheight(0) + 13) / 27)
+let s:l = 4 - ((3 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-72
-normal! 018|
+4
+normal! 0
 wincmd w
 argglobal
 edit public/assets/js/main.js
@@ -1127,15 +1148,15 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 51 - ((16 * winheight(0) + 13) / 27)
+let s:l = 98 - ((14 * winheight(0) + 14) / 29)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-51
-normal! 07|
+98
+normal! 060|
 wincmd w
 argglobal
-edit app.js
+edit public/views/index.html
 let s:cpo_save=&cpo
 set cpo&vim
 inoremap <buffer> <silent> <BS> =AutoPairsDelete()
@@ -1143,7 +1164,6 @@ inoremap <buffer> <silent> î :call AutoPairsJump()a
 inoremap <buffer> <silent> <expr> ð AutoPairsToggle()
 inoremap <buffer> <silent> â =AutoPairsBackInsert()
 inoremap <buffer> <silent> å =AutoPairsFastWrap()
-nnoremap <buffer> <silent> <Plug>(jsdoc) :call jsdoc#insert()
 inoremap <buffer> <silent>  =AutoPairsDelete()
 inoremap <buffer> <silent>   =AutoPairsSpace()
 inoremap <buffer> <silent> " =AutoPairsInsert('"')
@@ -1170,14 +1190,14 @@ setlocal breakindentopt=
 setlocal bufhidden=
 setlocal buflisted
 setlocal buftype=
-setlocal cindent
-setlocal cinkeys=0{,0},0),:,!^F,o,O,e,0]
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=j1,J1
 setlocal cinwords=if,else,while,do,for,switch
 set colorcolumn=91
 setlocal colorcolumn=91
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-setlocal commentstring=//%s
+setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
+setlocal commentstring=<!--%s-->
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
@@ -1193,8 +1213,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'javascript'
-setlocal filetype=javascript
+if &filetype != 'html'
+setlocal filetype=html
 endif
 setlocal fixendofline
 setlocal foldcolumn=0
@@ -1208,17 +1228,17 @@ setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=n1jcroql
+setlocal formatoptions=tcqn1j
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
 setlocal iminsert=2
 setlocal imsearch=2
 setlocal include=
 setlocal includeexpr=
-setlocal indentexpr=
-setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal indentexpr=HtmlIndent()
+setlocal indentkeys=o,O,<Return>,<>>,{,},!^F
 setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255,$
+setlocal iskeyword=@,48-57,_,192-255
 setlocal keywordprg=
 set linebreak
 setlocal linebreak
@@ -1226,14 +1246,14 @@ setlocal nolisp
 setlocal lispwords=
 setlocal nolist
 setlocal makeprg=
-setlocal matchpairs=(:),{:},[:]
+setlocal matchpairs=(:),{:},[:],<:>
 setlocal modeline
 setlocal modifiable
 setlocal nrformats=bin,octal,hex
 set number
 setlocal number
 setlocal numberwidth=4
-setlocal omnifunc=javascriptcomplete#CompleteJS
+setlocal omnifunc=htmlcomplete#CompleteTags
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
@@ -1257,8 +1277,8 @@ setlocal statusline=%!airline#statusline(4)
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'javascript'
-setlocal syntax=javascript
+if &syntax != 'html'
+setlocal syntax=html
 endif
 setlocal tabstop=2
 setlocal tagcase=
@@ -1272,21 +1292,167 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 103 - ((24 * winheight(0) + 18) / 36)
+let s:l = 49 - ((14 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-103
-normal! 037|
+49
+normal! 016|
 wincmd w
-4wincmd w
-exe 'vert 1resize ' . ((&columns * 31 + 136) / 273)
-exe '2resize ' . ((&lines * 27 + 33) / 66)
-exe 'vert 2resize ' . ((&columns * 102 + 136) / 273)
-exe '3resize ' . ((&lines * 27 + 33) / 66)
-exe 'vert 3resize ' . ((&columns * 138 + 136) / 273)
-exe '4resize ' . ((&lines * 36 + 33) / 66)
-exe 'vert 4resize ' . ((&columns * 241 + 136) / 273)
+argglobal
+edit public/views/index.html
+let s:cpo_save=&cpo
+set cpo&vim
+inoremap <buffer> <silent> <BS> =AutoPairsDelete()
+inoremap <buffer> <silent> î :call AutoPairsJump()a
+inoremap <buffer> <silent> <expr> ð AutoPairsToggle()
+inoremap <buffer> <silent> â =AutoPairsBackInsert()
+inoremap <buffer> <silent> å =AutoPairsFastWrap()
+inoremap <buffer> <silent>  =AutoPairsDelete()
+inoremap <buffer> <silent>   =AutoPairsSpace()
+inoremap <buffer> <silent> " =AutoPairsInsert('"')
+inoremap <buffer> <silent> ' =AutoPairsInsert('''')
+inoremap <buffer> <silent> ( =AutoPairsInsert('(')
+inoremap <buffer> <silent> ) =AutoPairsInsert(')')
+noremap <buffer> <silent> î :call AutoPairsJump()
+noremap <buffer> <silent> ð :call AutoPairsToggle()
+inoremap <buffer> <silent> [ =AutoPairsInsert('[')
+inoremap <buffer> <silent> ] =AutoPairsInsert(']')
+inoremap <buffer> <silent> ` =AutoPairsInsert('`')
+inoremap <buffer> <silent> { =AutoPairsInsert('{')
+inoremap <buffer> <silent> } =AutoPairsInsert('}')
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=j1,J1
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=91
+setlocal colorcolumn=91
+setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
+setlocal commentstring=<!--%s-->
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'html'
+setlocal filetype=html
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcqn1j
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=2
+setlocal imsearch=2
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=HtmlIndent()
+setlocal indentkeys=o,O,<Return>,<>>,{,},!^F
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+set linebreak
+setlocal linebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:],<:>
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=htmlcomplete#CompleteTags
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=0
+set spell
+setlocal spell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(5)
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'html'
+setlocal syntax=html
+endif
+setlocal tabstop=2
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=89
+setlocal thesaurus=
+setlocal undofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 52 - ((14 * winheight(0) + 14) / 29)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+52
+normal! 017|
+wincmd w
+3wincmd w
+exe 'vert 1resize ' . ((&columns * 31 + 127) / 254)
+exe '2resize ' . ((&lines * 30 + 31) / 62)
+exe 'vert 2resize ' . ((&columns * 110 + 127) / 254)
+exe '3resize ' . ((&lines * 29 + 31) / 62)
+exe 'vert 3resize ' . ((&columns * 110 + 127) / 254)
+exe '4resize ' . ((&lines * 30 + 31) / 62)
+exe 'vert 4resize ' . ((&columns * 111 + 127) / 254)
+exe '5resize ' . ((&lines * 29 + 31) / 62)
+exe 'vert 5resize ' . ((&columns * 111 + 127) / 254)
 tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

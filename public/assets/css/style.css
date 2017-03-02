@@ -22,16 +22,20 @@ main { /*Sticky footer*/
   flex: 1 0 auto;
 }
 
-a:link {
+li>a:link {
   color:white;
 }
 
-a:visited {
-  color:white; text-shadow: #78909c;
+li>a:visited {
+  color:white;
 }
 
-a:hover {
-  text-shadow: 2px 2px 5px black;
+footer>a:link {
+  color:white;
+}
+
+footer>a:visited {
+  color:white;
 }
 
 .footer
