@@ -617,7 +617,7 @@ set helplang=en
 set ignorecase
 set incsearch
 set omnifunc=syntaxcomplete#Complete
-set operatorfunc=<SNR>67_go
+set operatorfunc=<SNR>70_opfunc
 set pastetoggle=<F5>
 set printoptions=paper:letter
 set ruler
@@ -647,17 +647,16 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 file-watcher.sh
-badd +1 app.js
+badd +236 app.js
 badd +75 public/assets/css/style.css
-badd +103 public/views/index.html
-badd +2 public/assets/js/main.js
+badd +63 public/views/index.html
+badd +100 public/assets/js/main.js
 badd +15 config/team-summary.json
 badd +1 ~/git/PetoskeyPaladinsDataCollectionApp/app/src/main/assets/auton-layout.json
 badd +1 public/node/SummaryCalculations.js
 badd +94 node/SummaryCalculations.js
 badd +1 data/datastore.json
 badd +2 ~/git/bag-day-timer/public/javascripts/main.js
-badd +1 .
 argglobal
 silent! argdel *
 edit app.js
@@ -681,11 +680,11 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 31 + 127) / 254)
-exe '2resize ' . ((&lines * 30 + 31) / 62)
-exe 'vert 2resize ' . ((&columns * 110 + 127) / 254)
-exe '3resize ' . ((&lines * 29 + 31) / 62)
-exe 'vert 3resize ' . ((&columns * 110 + 127) / 254)
+exe 'vert 1resize ' . ((&columns * 30 + 127) / 254)
+exe '2resize ' . ((&lines * 29 + 31) / 62)
+exe 'vert 2resize ' . ((&columns * 111 + 127) / 254)
+exe '3resize ' . ((&lines * 30 + 31) / 62)
+exe 'vert 3resize ' . ((&columns * 111 + 127) / 254)
 exe '4resize ' . ((&lines * 30 + 31) / 62)
 exe 'vert 4resize ' . ((&columns * 111 + 127) / 254)
 exe '5resize ' . ((&lines * 29 + 31) / 62)
@@ -1003,15 +1002,15 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 4 - ((3 * winheight(0) + 15) / 30)
+let s:l = 236 - ((14 * winheight(0) + 14) / 29)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-4
-normal! 0
+236
+normal! 048|
 wincmd w
 argglobal
-edit public/assets/js/main.js
+edit node/SummaryCalculations.js
 let s:cpo_save=&cpo
 set cpo&vim
 inoremap <buffer> <silent> <BS> =AutoPairsDelete()
@@ -1148,12 +1147,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 98 - ((14 * winheight(0) + 14) / 29)
+let s:l = 158 - ((14 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-98
-normal! 060|
+158
+normal! 0
 wincmd w
 argglobal
 edit public/views/index.html
@@ -1292,15 +1291,15 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 49 - ((14 * winheight(0) + 15) / 30)
+let s:l = 159 - ((14 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-49
-normal! 016|
+159
+normal! 0
 wincmd w
 argglobal
-edit public/views/index.html
+edit public/assets/js/main.js
 let s:cpo_save=&cpo
 set cpo&vim
 inoremap <buffer> <silent> <BS> =AutoPairsDelete()
@@ -1308,6 +1307,7 @@ inoremap <buffer> <silent> î :call AutoPairsJump()a
 inoremap <buffer> <silent> <expr> ð AutoPairsToggle()
 inoremap <buffer> <silent> â =AutoPairsBackInsert()
 inoremap <buffer> <silent> å =AutoPairsFastWrap()
+nnoremap <buffer> <silent> <Plug>(jsdoc) :call jsdoc#insert()
 inoremap <buffer> <silent>  =AutoPairsDelete()
 inoremap <buffer> <silent>   =AutoPairsSpace()
 inoremap <buffer> <silent> " =AutoPairsInsert('"')
@@ -1334,14 +1334,14 @@ setlocal breakindentopt=
 setlocal bufhidden=
 setlocal buflisted
 setlocal buftype=
-setlocal nocindent
-setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cindent
+setlocal cinkeys=0{,0},0),:,!^F,o,O,e,0]
 setlocal cinoptions=j1,J1
 setlocal cinwords=if,else,while,do,for,switch
 set colorcolumn=91
 setlocal colorcolumn=91
-setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
-setlocal commentstring=<!--%s-->
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=//%s
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
@@ -1357,8 +1357,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'html'
-setlocal filetype=html
+if &filetype != 'javascript'
+setlocal filetype=javascript
 endif
 setlocal fixendofline
 setlocal foldcolumn=0
@@ -1372,17 +1372,17 @@ setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=tcqn1j
+setlocal formatoptions=n1jcroql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
 setlocal iminsert=2
 setlocal imsearch=2
 setlocal include=
 setlocal includeexpr=
-setlocal indentexpr=HtmlIndent()
-setlocal indentkeys=o,O,<Return>,<>>,{,},!^F
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
 setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255
+setlocal iskeyword=@,48-57,_,192-255,$
 setlocal keywordprg=
 set linebreak
 setlocal linebreak
@@ -1390,14 +1390,14 @@ setlocal nolisp
 setlocal lispwords=
 setlocal nolist
 setlocal makeprg=
-setlocal matchpairs=(:),{:},[:],<:>
+setlocal matchpairs=(:),{:},[:]
 setlocal modeline
 setlocal modifiable
 setlocal nrformats=bin,octal,hex
 set number
 setlocal number
 setlocal numberwidth=4
-setlocal omnifunc=htmlcomplete#CompleteTags
+setlocal omnifunc=javascriptcomplete#CompleteJS
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
@@ -1421,8 +1421,8 @@ setlocal statusline=%!airline#statusline(5)
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'html'
-setlocal syntax=html
+if &syntax != 'javascript'
+setlocal syntax=javascript
 endif
 setlocal tabstop=2
 setlocal tagcase=
@@ -1436,19 +1436,19 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 52 - ((14 * winheight(0) + 14) / 29)
+let s:l = 158 - ((14 * winheight(0) + 14) / 29)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-52
-normal! 017|
+158
+normal! 03|
 wincmd w
 3wincmd w
-exe 'vert 1resize ' . ((&columns * 31 + 127) / 254)
-exe '2resize ' . ((&lines * 30 + 31) / 62)
-exe 'vert 2resize ' . ((&columns * 110 + 127) / 254)
-exe '3resize ' . ((&lines * 29 + 31) / 62)
-exe 'vert 3resize ' . ((&columns * 110 + 127) / 254)
+exe 'vert 1resize ' . ((&columns * 30 + 127) / 254)
+exe '2resize ' . ((&lines * 29 + 31) / 62)
+exe 'vert 2resize ' . ((&columns * 111 + 127) / 254)
+exe '3resize ' . ((&lines * 30 + 31) / 62)
+exe 'vert 3resize ' . ((&columns * 111 + 127) / 254)
 exe '4resize ' . ((&lines * 30 + 31) / 62)
 exe 'vert 4resize ' . ((&columns * 111 + 127) / 254)
 exe '5resize ' . ((&lines * 29 + 31) / 62)

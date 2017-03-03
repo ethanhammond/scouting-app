@@ -49,6 +49,22 @@ class app {
           } else if (req.url.indexOf('/event-list/') >= 0) {
             let teamNumber = req.url.split('/').pop();
             app.getEventList(teamNumber);
+          } else if (req.url.indexOf('/event-summary/') >= 0) {
+            let urlTree = req.url.split('/');
+            let teamNumber = urlTree.pop();
+            let eventCode = urlTree.pop();
+            app.getEventSummary(teamNumber, eventCode);
+          } else if (req.url.indexOf('/match-list/') >= 0) {
+            let urlTree = req.url.split('/');
+            let teamNumber = urlTree.pop();
+            let eventCode = urlTree.pop();
+            app.getMatchList(teamNumber, eventCode);
+          } else if (req.url.indexOf('/match-summary/') >= 0) {
+            let urlTree = req.url.split('/');
+            let roundNumber = urlTree.pop();
+            let teamNumber = urlTree.pop();
+            let eventCode = urlTree.pop();
+            app.getMatchSummary(teamNumber, eventCode, roundNumber);
           }
         } else {
           //console.log("[405] " + req.method + " to " + req.url);
@@ -150,12 +166,48 @@ class app {
     });
   }
 
-  static getTeamSummary(teamNumber) {
-    let SummaryCalculations = require('./node/SummaryCalculations');
-    let teamSummary = {};
+  static getMatchList(teamNumber, eventCode) {
+    let html = '';
+    app.db.find({team: teamNumber, event: eventCode}, (err, docs) => {
+      let matches = [];
+      for (let i = 0; i < docs.length; i++) {
+        let roundNumber = docs[i].round;
+        console.log(roundNumber);
+        console.log("docs: \n" + JSON.stringify(docs));
+        const NOT_FOUND = -1;
+        if (matches.indexOf(roundNumber) == NOT_FOUND) {
+          matches.push(roundNumber);
+          html += '<a href="#!" class="collection-item match-listing">' +
+            roundNumber +
+            '</a>';
+        }
+      }
+      return app.httpHandler('', html, 'text/html');
+    });
+  }
+
+  static getMatchSummary(teamNumber, eventCode, roundNumber) {
     console.log("team number: " + teamNumber);
-    app.db.find({team: teamNumber}, (err, docs) => {
-		console.log("docs: " + JSON.stringify(docs, null, 2));
+    console.log("event code: " + eventCode);
+    console.log("round number: " + roundNumber);
+    let query = {team: teamNumber, event: eventCode, round: roundNumber};
+    console.log("query: " + JSON.stringify(query));
+    app.getResults(query);
+  }
+
+  static getEventSummary(teamNumber, eventCode) {
+    let eventSummary = {};
+    console.log("team number: " + teamNumber);
+    console.log("event code: " + eventCode);
+    let query = {team: teamNumber, event: eventCode};
+    console.log("query: " + JSON.stringify(query));
+    app.getResults(query);
+  }
+
+  static getResults(query) {
+    let SummaryCalculations = require('./node/SummaryCalculations');
+    app.db.find(query, (err, docs) => {
+      console.log("docs: " + JSON.stringify(docs, null, 2));
       let summaryData = {};
       if (err) {
         console.log('err' + err);
@@ -184,7 +236,7 @@ class app {
                       console.log("results: " + JSON.stringify(results, null, 2));
                       summaryData[gamemode][dataPoint] = results;
                       html += `<li>
-                        <div class="collapsible-header">${dataPoint}</div>
+                        <div class="collapsible-header"><b>${dataPoint}</b></div>
                         <div class="collapsible-body">
                           <ul class="collection">`;
 
@@ -201,11 +253,18 @@ class app {
             html += `</ul></div>`;
           }
           // console.log('summary data' + JSON.stringify(summaryData, null, 2));
-          console.log("html\n" + html);
+          // console.log("html\n" + html);
           return app.httpHandler('', html, 'text/html');
         });
       }
     });
+  }
+
+  static getTeamSummary(teamNumber) {
+    let teamSummary = {};
+    console.log("team number: " + teamNumber);
+    let query = {team: teamNumber};
+    app.getResults(query);
   }
 
   static addMatchData(req, res) {

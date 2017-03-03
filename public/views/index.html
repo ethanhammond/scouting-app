@@ -32,102 +32,141 @@
       </nav>
     </header>
 
-    <main>
-      <div class="data">
-        <div class="container">
-          <div class="row">
-            <h2>Data</h2>
-            <div class="col s12">
-              <div id="data" class="collection"></div>
-            </div>
+    <main id="main" style="diplay: none;">
+    <div class="data">
+      <div class="container">
+        <div class="row">
+          <h2>Data</h2>
+          <div class="col s12">
+            <div id="data" class="collection"></div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="upload">
-        <div class="container">
-          <h2>Upload</h2>
-          <form action="#">
+    <div class="upload">
+      <div class="container">
+        <h2>Upload</h2>
+        <form action="#">
+          <div class="row">
+            <div class="file-field input-field select-file">
+              <div class="btn">
+                <span>Select File</span>
+                <input id="file-upload" type="file">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+              </div>
+            </div>
             <div class="row">
-              <div class="file-field input-field select-file">
-                <div class="btn">
-                  <span>Select File</span>
-                  <input id="file-upload" type="file">
-                </div>
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col s12">
-                  <div id="upload" class="btn waves-light"><span>UPLOAD</span></div>
-                </div>
+              <div class="col s12">
+                <div id="upload" class="btn waves-light"><span>UPLOAD</span></div>
               </div>
             </div>
-          </form>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="team-detail">
+      <div class="container">
+        <div class="row">
+          <div class="col s12">
+            <h1 class="team-info">Team Number - Team Name</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <a class="blue-alliance-link" href="" target="_blank">Blue Alliance Page</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <ul class="collapsible popout" data-collapsible="accordion">
+              <li>
+                <div class="collapsible-header">Summary</div>
+                <div class="collapsible-body">
+                  <span id="team-summary" class="row"></span>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header">Events</div>
+                <div class="collapsible-body">
+                  <div id="event-list" class="collection"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="event-detail">
+      <div class="container">
+        <div class="row">
+          <div class="col s12">
+            <h1 class="team-info"></h1>
+            <h2 class="event-info"></h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <a class="blue-alliance-link" href="" target="_blank">Blue Alliance Page</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <ul class="collapsible popout" data-collapsible="accordion">
+              <li>
+                <div class="collapsible-header">Summary</div>
+                <div class="collapsible-body">
+                  <span id="event-summary" class="row"></span>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header">Matches</div>
+                <div class="collapsible-body">
+                  <div id="match-list" class="collection"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="match-detail">
+      <div class="container">
+        <div class="row">
+          <div class="col s12">
+            <h1 class="team-info"></h1>
+            <h2 class="event-info"></h2>
+            <h3 class="match-info"></h3>
+          </div>
+        </div>
+        <div class="col s12">
+          <a class="blue-alliance-link" href="" target="_blank">Blue Alliance Page</a>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <ul class="collapsible popout" data-collapsible="accordion">
+              <li>
+                <div class="collapsible-header">Summary</div>
+                <div class="collapsible-body">
+                  <span id="match-summary" class="row"></span>
+                </div>
+              </li>
+              <!-- <li> -->
+              <!--   <div class="collapsible-header"></div> -->
+              <!--   <div class="collapsible-body"> -->
+              <!--     <div id="match-list" class="collection"></div> -->
+              <!--   </div> -->
+              <!-- </li> -->
+            </ul>
+          </div>
         </div>
       </div>
 
-      <div class="team-detail">
-        <div class="container">
-          <div class="row">
-            <div class="col s12">
-              <h1 class="team-info">Team Number - Team Name</h1>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col s12">
-              <a id="blue-alliance-link" href="">Blue Alliance Page</a>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col s12">
-              <ul class="collapsible popout" data-collapsible="accordion">
-                <li>
-                  <div class="collapsible-header">Summary</div>
-                  <div class="collapsible-body">
-                    <span id="team-summary" class="row"></span>
-                  </div>
-                </li>
-                <li>
-                  <div class="collapsible-header">Events</div>
-                  <div class="collapsible-body">
-                    <div id="event-list" class="collection"></div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-        </div>
-      </div>
-
-      <div class="event-detail">
-        <div class="container">
-          <div class="row">
-            <div class="col s12">
-              <h1 class="team-info"></h1>
-              <h2 class="event-name"></h2>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col s12">
-              <ul class="collapsible popout" data-collapsible="accordion">
-                <li>
-                  <div class="collapsible-header">Summary</div>
-                  <div class="collapsible-body">
-                    <span id="team-summary" class="row"></span>
-                  </div>
-                </li>
-                <li>
-                  <div class="collapsible-header">Matches</div>
-                  <div class="collapsible-body">
-                    <div id="event-list" class="collection"></div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </main>
 
