@@ -647,29 +647,25 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 file-watcher.sh
-badd +236 app.js
+badd +239 app.js
 badd +75 public/assets/css/style.css
 badd +63 public/views/index.html
 badd +100 public/assets/js/main.js
 badd +15 config/team-summary.json
 badd +1 ~/git/PetoskeyPaladinsDataCollectionApp/app/src/main/assets/auton-layout.json
 badd +1 public/node/SummaryCalculations.js
-badd +94 node/SummaryCalculations.js
+badd +216 node/SummaryCalculations.js
 badd +1 data/datastore.json
 badd +2 ~/git/bag-day-timer/public/javascripts/main.js
 argglobal
 silent! argdel *
-edit app.js
+edit node/SummaryCalculations.js
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
 wincmd _ | wincmd |
 vsplit
 2wincmd h
-wincmd w
-wincmd _ | wincmd |
-split
-1wincmd k
 wincmd w
 wincmd w
 wincmd _ | wincmd |
@@ -680,15 +676,12 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 30 + 127) / 254)
-exe '2resize ' . ((&lines * 29 + 31) / 62)
+exe 'vert 1resize ' . ((&columns * 31 + 127) / 254)
 exe 'vert 2resize ' . ((&columns * 111 + 127) / 254)
 exe '3resize ' . ((&lines * 30 + 31) / 62)
-exe 'vert 3resize ' . ((&columns * 111 + 127) / 254)
-exe '4resize ' . ((&lines * 30 + 31) / 62)
-exe 'vert 4resize ' . ((&columns * 111 + 127) / 254)
-exe '5resize ' . ((&lines * 29 + 31) / 62)
-exe 'vert 5resize ' . ((&columns * 111 + 127) / 254)
+exe 'vert 3resize ' . ((&columns * 110 + 127) / 254)
+exe '4resize ' . ((&lines * 29 + 31) / 62)
+exe 'vert 4resize ' . ((&columns * 110 + 127) / 254)
 argglobal
 enew
 file NERD_tree_1
@@ -1002,157 +995,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 236 - ((14 * winheight(0) + 14) / 29)
+let s:l = 176 - ((29 * winheight(0) + 30) / 60)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-236
-normal! 048|
-wincmd w
-argglobal
-edit node/SummaryCalculations.js
-let s:cpo_save=&cpo
-set cpo&vim
-inoremap <buffer> <silent> <BS> =AutoPairsDelete()
-inoremap <buffer> <silent> î :call AutoPairsJump()a
-inoremap <buffer> <silent> <expr> ð AutoPairsToggle()
-inoremap <buffer> <silent> â =AutoPairsBackInsert()
-inoremap <buffer> <silent> å =AutoPairsFastWrap()
-nnoremap <buffer> <silent> <Plug>(jsdoc) :call jsdoc#insert()
-inoremap <buffer> <silent>  =AutoPairsDelete()
-inoremap <buffer> <silent>   =AutoPairsSpace()
-inoremap <buffer> <silent> " =AutoPairsInsert('"')
-inoremap <buffer> <silent> ' =AutoPairsInsert('''')
-inoremap <buffer> <silent> ( =AutoPairsInsert('(')
-inoremap <buffer> <silent> ) =AutoPairsInsert(')')
-noremap <buffer> <silent> î :call AutoPairsJump()
-noremap <buffer> <silent> ð :call AutoPairsToggle()
-inoremap <buffer> <silent> [ =AutoPairsInsert('[')
-inoremap <buffer> <silent> ] =AutoPairsInsert(']')
-inoremap <buffer> <silent> ` =AutoPairsInsert('`')
-inoremap <buffer> <silent> { =AutoPairsInsert('{')
-inoremap <buffer> <silent> } =AutoPairsInsert('}')
-let &cpo=s:cpo_save
-unlet s:cpo_save
-setlocal keymap=
-setlocal noarabic
-setlocal autoindent
-setlocal backupcopy=
-setlocal balloonexpr=
-setlocal nobinary
-setlocal nobreakindent
-setlocal breakindentopt=
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=
-setlocal cindent
-setlocal cinkeys=0{,0},0),:,!^F,o,O,e,0]
-setlocal cinoptions=j1,J1
-setlocal cinwords=if,else,while,do,for,switch
-set colorcolumn=91
-setlocal colorcolumn=91
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-setlocal commentstring=//%s
-setlocal complete=.,w,b,u,t,i
-setlocal concealcursor=
-setlocal conceallevel=0
-setlocal completefunc=
-setlocal nocopyindent
-setlocal cryptmethod=
-setlocal nocursorbind
-setlocal nocursorcolumn
-setlocal nocursorline
-setlocal define=
-setlocal dictionary=
-setlocal nodiff
-setlocal equalprg=
-setlocal errorformat=
-setlocal expandtab
-if &filetype != 'javascript'
-setlocal filetype=javascript
-endif
-setlocal fixendofline
-setlocal foldcolumn=0
-setlocal foldenable
-setlocal foldexpr=0
-setlocal foldignore=#
-setlocal foldlevel=0
-setlocal foldmarker={{{,}}}
-setlocal foldmethod=manual
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldtext=foldtext()
-setlocal formatexpr=
-setlocal formatoptions=n1jcroql
-setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
-setlocal grepprg=
-setlocal iminsert=2
-setlocal imsearch=2
-setlocal include=
-setlocal includeexpr=
-setlocal indentexpr=
-setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
-setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255,$
-setlocal keywordprg=
-set linebreak
-setlocal linebreak
-setlocal nolisp
-setlocal lispwords=
-setlocal nolist
-setlocal makeprg=
-setlocal matchpairs=(:),{:},[:]
-setlocal modeline
-setlocal modifiable
-setlocal nrformats=bin,octal,hex
-set number
-setlocal number
-setlocal numberwidth=4
-setlocal omnifunc=javascriptcomplete#CompleteJS
-setlocal path=
-setlocal nopreserveindent
-setlocal nopreviewwindow
-setlocal quoteescape=\\
-setlocal noreadonly
-set relativenumber
-setlocal relativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
-setlocal noscrollbind
-setlocal shiftwidth=2
-setlocal noshortname
-setlocal smartindent
-setlocal softtabstop=0
-set spell
-setlocal spell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
-setlocal spellfile=
-setlocal spelllang=en
-setlocal statusline=%!airline#statusline(3)
-setlocal suffixesadd=
-setlocal swapfile
-setlocal synmaxcol=3000
-if &syntax != 'javascript'
-setlocal syntax=javascript
-endif
-setlocal tabstop=2
-setlocal tagcase=
-setlocal tags=
-setlocal textwidth=89
-setlocal thesaurus=
-setlocal undofile
-setlocal undolevels=-123456
-setlocal nowinfixheight
-setlocal nowinfixwidth
-setlocal wrap
-setlocal wrapmargin=0
-silent! normal! zE
-let s:l = 158 - ((14 * winheight(0) + 15) / 30)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-158
-normal! 0
+176
+normal! 017|
 wincmd w
 argglobal
 edit public/views/index.html
@@ -1272,7 +1120,7 @@ setlocal spell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
-setlocal statusline=%!airline#statusline(4)
+setlocal statusline=%!airline#statusline(3)
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
@@ -1417,7 +1265,7 @@ setlocal spell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
-setlocal statusline=%!airline#statusline(5)
+setlocal statusline=%!airline#statusline(4)
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
@@ -1436,23 +1284,20 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 158 - ((14 * winheight(0) + 14) / 29)
+let s:l = 1 - ((0 * winheight(0) + 14) / 29)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-158
-normal! 03|
+1
+normal! 0
 wincmd w
-3wincmd w
-exe 'vert 1resize ' . ((&columns * 30 + 127) / 254)
-exe '2resize ' . ((&lines * 29 + 31) / 62)
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 31 + 127) / 254)
 exe 'vert 2resize ' . ((&columns * 111 + 127) / 254)
 exe '3resize ' . ((&lines * 30 + 31) / 62)
-exe 'vert 3resize ' . ((&columns * 111 + 127) / 254)
-exe '4resize ' . ((&lines * 30 + 31) / 62)
-exe 'vert 4resize ' . ((&columns * 111 + 127) / 254)
-exe '5resize ' . ((&lines * 29 + 31) / 62)
-exe 'vert 5resize ' . ((&columns * 111 + 127) / 254)
+exe 'vert 3resize ' . ((&columns * 110 + 127) / 254)
+exe '4resize ' . ((&lines * 29 + 31) / 62)
+exe 'vert 4resize ' . ((&columns * 110 + 127) / 254)
 tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

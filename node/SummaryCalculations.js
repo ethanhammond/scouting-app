@@ -146,6 +146,7 @@ class SummaryCalculations {
 					// console.log("calculation type: " + calculationType);
 					if (calculationSpec.value == "time") {
 						let times = [];
+            let locationTimes = {};
 						for (let match of matches) {
 							match = match[gamemode];
 							// console.log("matches: " + JSON.stringify(matches, null, 2));
@@ -157,12 +158,40 @@ class SummaryCalculations {
 								let locations = calculationSpec.locations;
 								for (let location of locations) {
 									// console.log("location: " + event + " " + location);
+                  let locationTimeKey = `${event} ${location}`;
+                  if (!locationTimes.hasOwnProperty(locationTimeKey)) {
+                    locationTimes[locationTimeKey] = [];
+                  }
 									times.push.apply(times, getTimesByEvent(match, event + " " + location));
+                  locationTimes[locationTimeKey].push.apply(locationTimes[locationTimeKey],
+                      getTimesByEvent(match, event + " " + location));
 								}
 							}
 							// console.log("times: " + times);
 						}
-						let calculator = calculators[calculationType];
+            for (let location in locationTimes) {
+              if (locationTimes.hasOwnProperty(location)) {
+                let locationTimeKey = `${location} ${calculationType}`;
+                times = locationTimes[location];
+                let calculator = calculators[calculationType];
+                if (calculator.length == 1) {
+                  results[locationTimeKey] = calculator(times);
+                } else if (calculator.length == 2) {
+                  let eventCount = 0;
+                  // console.log("times: " + times);
+                  times.forEach((time) => {
+                    if (time !== null) {
+                      eventCount++;
+                    }
+                  });
+                  let matchCount = matches.length;
+                  results[locationTimeKey] = calculator(matchCount, eventCount);
+                } else {
+                  results[locationTimeKey] = -1;
+                }
+              }
+            }
+            let calculator = calculators[calculationType];
 						if (calculator.length == 1) {
 							result = calculator(times);
 						} else if (calculator.length == 2) {
