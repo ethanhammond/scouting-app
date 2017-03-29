@@ -654,7 +654,7 @@ badd +100 public/assets/js/main.js
 badd +15 config/team-summary.json
 badd +1 ~/git/PetoskeyPaladinsDataCollectionApp/app/src/main/assets/auton-layout.json
 badd +1 public/node/SummaryCalculations.js
-badd +216 node/SummaryCalculations.js
+badd +1 node/SummaryCalculations.js
 badd +1 data/datastore.json
 badd +2 ~/git/bag-day-timer/public/javascripts/main.js
 argglobal
@@ -1284,14 +1284,14 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 14) / 29)
+let s:l = 15 - ((14 * winheight(0) + 14) / 29)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+15
 normal! 0
 wincmd w
-2wincmd w
+4wincmd w
 exe 'vert 1resize ' . ((&columns * 31 + 127) / 254)
 exe 'vert 2resize ' . ((&columns * 111 + 127) / 254)
 exe '3resize ' . ((&lines * 30 + 31) / 62)
